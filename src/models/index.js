@@ -18,7 +18,7 @@ export const CONNECT_DB = () => {
     return sequelize
         .authenticate()
         .then(() => {
-            return sequelize.sync();
+            return sequelize.sync({ alter: true });
         })
         .then(() => {
             console.log("db conncted");
