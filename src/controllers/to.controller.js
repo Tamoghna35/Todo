@@ -171,3 +171,67 @@ export const taskByDue_date = async (req, res) => {
         tasks: formated_task_list,
     });
 };
+
+// Path: /todos/: todoId /    Method: GET   Description: Returns a specific todo based on the todo ID
+
+export const todoBasedOnId = async (req, res) => {
+    const { todoId } = req.params;
+    const task_id = todoId;
+    if (!task_id) {
+        return res.status(400).json({ erroe: `task_id is not provoded` });
+    }
+
+    const whereCondition = { task_id };
+
+    const task = await Task.findOne({ where: whereCondition });
+    if (!task) {
+        return res.status(400).json({ error: `Task not find` });
+    }
+    return res.status(200).json({
+        message: `the task is: `,
+        task: task,
+    });
+};
+
+// todo basd on condition
+
+export const todoBasedOnCondition = async (req, res) => {
+    const { category, priority, status } = req.query;
+
+    if (!category && !priority & !status) {
+        return res
+            .status(400)
+            .json({ error: "Atleast one parameter should be provided" });
+    }
+
+    const whereCondition = {};
+
+    if (category) {
+        whereCondition.category = category;
+    }
+
+    if (priority) {
+        whereCondition.priority = priority;
+    }
+
+    if (status) {
+        whereCondition.status = status;
+    }
+
+    const taskList = await Task.findAll({ where: whereCondition });
+    console.log("Task List ===>", taskList);
+
+    const formatedTaskList = taskList.map((taskItem) => ({
+        task_id: taskItem.task_id,
+        task_name: taskItem.task_name,
+        category: taskItem.category,
+        priority: taskItem.priority,
+        status: taskItem.status,
+        due_date: taskItem.due_date,
+    }));
+
+    return res.status(200).json({
+        message: "Task list",
+        data: formatedTaskList,
+    });
+};
