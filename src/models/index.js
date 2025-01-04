@@ -2,7 +2,8 @@
 
 import { sequelize } from "../db.config.js";
 import { Task } from "./task.model.js";
-import Attatchment from "./attatchment.model.js";
+
+import { User } from "./user.model.js";
 // export const CONNECT_DB = async () => {
 //     try {
 //         await sequelize.authenticate()
@@ -15,9 +16,13 @@ import Attatchment from "./attatchment.model.js";
 //     }
 // }
 
+
+
 // one-to-many relationship
-Task.hasMany(Attatchment, { foreignKey: "task_id" })
-Attatchment.belongsTo(Task, { foreignKey: "task_id" })
+
+User.hasMany(Task, { foreignKey: "user_id" })
+Task.belongsTo(Task, { foreignKey: "user_id" })
+
 
 
 export const CONNECT_DB = () => {
@@ -39,5 +44,5 @@ export const CONNECT_DB = () => {
 
 export {
     Task,
-    Attatchment
+    User
 }

@@ -2,7 +2,7 @@
 
 import { sequelize } from "../db.config.js";
 import { DataTypes } from "sequelize";
-
+import { User } from "./user.model.js";
 export const Task = sequelize.define(
     "task_table",
     {
@@ -33,6 +33,15 @@ export const Task = sequelize.define(
         due_date: {
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW
+        },
+        user_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: User,
+                key: "user_id"
+            },
+            onDelete: "CASCADE"
         }
 
     },
