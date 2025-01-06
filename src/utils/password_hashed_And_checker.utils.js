@@ -13,6 +13,9 @@ export const hashPassword = async (password) => {
 };
 
 export const compare_password = async (user_inputPassword, hashed_password) => {
+    console.log("user_inputPassword ==>", user_inputPassword);
+    console.log("hashed_password ===>", hashed_password);
+
     try {
         const isMatched = await bcrypt.compare(user_inputPassword, hashed_password);
         return isMatched;

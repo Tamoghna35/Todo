@@ -36,3 +36,27 @@ export const accessTokenPromise = (user) => {
             throw error;
         });
 };
+
+export const refreshTokenPromise = (user) => {
+    const payload = { email: user.email };
+
+    const refreshTokenPromise = new Promise((resolve, reject) => {
+        try {
+            const token = jwt.sign(payload, process.env.REFRESH_TOKEN_PRIVATE_KEY, {
+                expiresIn: process.env.REFRESH_TOKEN_EXPIARY,
+            });
+            resolve(token);
+        } catch (error) {
+            reject(error);
+        }
+    });
+
+    return refreshTokenPromise
+        .then((token) => {
+            return token;
+        })
+        .catch((error) => {
+            console.error("Error in generating RefreshToken", error.message);
+            throw error;
+        });
+};
